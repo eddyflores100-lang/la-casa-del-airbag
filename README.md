@@ -1,58 +1,56 @@
-# La Casa del Airbag — dos conceptos digitales 2027
+# La Casa del Airbag — dos propuestas web 2027
 
-**El cliente debe elegir entre dos experiencias de marca completamente independientes, no combinar dos plantillas.**
+Dos experiencias visuales diferentes para que el cliente elija. **No se fusionan**.
 
-| Concepto | Web pública | Dirección visual | Implementación |
-|---|---|---|---|
-| SRS EXPERT / 01 | https://project35491.websitepublisher.ai/index.html | Cinemática azul, metal translúcido, escultura orbital 3D, editorial | `sites/srs-expert/index.html` + `sites/srs-expert/immersive.css` |
-| SRS LAB / 02 | https://project35481.websitepublisher.ai/index.html | Laboratorio experimental beige/grafito/naranja, ECU geométrico en capas 3D | `sites/srs-lab/index.html` + `sites/srs-lab/laboratory.css` |
+| Propuesta | Publicación | Dirección |
+|---|---|---|
+| SRS EXPERT | https://project35491.websitepublisher.ai/index.html | Fotografía de tablero a pantalla completa, estética oscura premium, tratamiento cálido, servicios editoriales |
+| SRS LAB | https://project35481.websitepublisher.ai/index.html | Base mineral clara, imágenes fotográficas superpuestas, catálogo de piezas y navegación directa |
 
-**WhatsApp único:** +593 98 721 9221. Ambos diseños usan el mismo negocio, el mismo contacto y formularios con `cotizacion_srs` en sus respectivas instalaciones WebsitePublisher.
+## Cambios del 13 de noviembre de 2026
 
-## Qué cambia en esta entrega
+- Se eliminaron por completo de las páginas publicadas las figuras geométricas 3D y Three.js, incluidos sus assets y código compartido anteriores.
+- Fotografías coherentes de interiores, tableros y volantes con archivo local en WebsitePublisher. Se conservan algunas fotografías existentes de módulos SRS.
+- Textos centrados en lo que pregunta un cliente: **tableros, airbags, módulos SRS, cinturones, pretensores, cintas y kits**, en lugar de eslóganes técnicos abstractos.
+- Formularios `cotizacion_srs` conservados, captura de leads en WebsitePublisher y enlace a **un único WhatsApp: +593 98 721 9221**.
+- Los chats web ahora llaman al Worker desplegado `lca-agent.eddyflores100.workers.dev`, con Cloudflare Workers AI, herramientas comerciales, respuesta contextual y un límite de consultas por IP. El enlace de WhatsApp se envía **solo si el usuario decide abrirlo y enviarlo**.
+- SEO de página: title, meta description, Open Graph, canonical, etiquetas alt, Schema.org AutoPartsStore, contenido semántico y enlaces a privacidad/términos.
+- Browser Rendering Cloudflare: captura de escritorio de ambas propuestas y captura móvil de SRS LAB comprobadas.
+- La herramienta Launch Check de WebsitePublisher informó 100/100 en ambos proyectos, pero advierte que siguen bloqueados para indexación y requieren plan apto y autorización del dueño para dominio/SEO públicos.
 
-- Se retiraron las fotografías de los dos `index.html`. Esculturas **Three.js/WebGL procedurales** (sin GLB de terceros), iluminación física, órbitas, geometría por capas, pointer drag, selector de objetos, resize, guardas de movimiento reducido y fallback CSS.
-- Interfaz de **agente real desde Cloudflare Workers AI** en cada página. Backend desplegado como `lca-agent` en la cuenta del proyecto, con URL `https://lca-agent.eddyflores100.workers.dev`.
-- `POST /api/chat`: modelo `@cf/meta/llama-3.3-70b-instruct-fp8-fast`, herramienta `get_business_info`, `list_component_categories`, `prepare_quote`, respuesta y enlace opcional para que el visitante decida si envía mensaje. No almacena ni envía mensajes por WhatsApp.
-- Limitador Cloudflare `CHAT_LIMIT` de 6 solicitudes por minuto y cliente/IP por centro de datos (aproximado, según documentación Cloudflare), tamaño máximo y lista de orígenes web autorizados.
-- `POST /mcp`: JSON-RPC MCP con `initialize`, `tools/list`, `tools/call` públicos para consultar ficha y preparar solicitudes sin acceder a datos privados. Código desplegado: `worker/lca-agent.js`.
-- Interfaz de dictado opcional mediante Web Speech API cuando el navegador lo admite.
-- SEO: metadatos por propuesta, HTML semántico, canonical, datos Schema.org, URLs de privacidad, términos y `llms.txt`; se conserva el estado **noindex** mientras el cliente elige una propuesta y su dueño no autoriza indexación.
-- Assets `js/experience.js` y los CSS residen en WebsitePublisher, y su código fuente también en este repositorio.
+## Alcance y límites
 
-## Validaciones realizadas — 13 noviembre 2026
+**Las fotografías son ilustrativas**, no testimonios visuales de reparaciones realizadas por el taller. Conviene sustituirlas por fotografía profesional autorizada del propio negocio antes de la entrega definitiva.
 
-- Ambos proyectos devuelven página `live` tras publicar y la API confirma que sus contenidos incluyen escena 3D, formularios, enlace al Worker y metadatos.
-- Ambos JS publicados compilan sintácticamente en V8 (análisis de sintaxis).
-- Cloudflare confirma Worker desplegado, subdominio público activo, binding AI y rate limiter.
-- La cuenta Cloudflare completó exitosamente inferencia real y una prueba de llamada a herramientas con el modelo elegido.
-- **No se ejecutó aún una prueba automatizada de navegación visual ni chat de extremo a extremo desde un navegador público**. Es una verificación pendiente, no un resultado inventado.
+La navegación 3D fue eliminada deliberadamente. La profundidad ahora usa composición de imágenes, capas, contraste, iluminación, sombras y transiciones CSS que respetan preferencias de movimiento reducido.
 
-## Limitaciones reales
+**WhatsApp automático entrante/saliente:** la integración Meta WhatsApp Cloud API todavía no se ha activado para este proyecto. Los dos sitios tienen botones click-to-chat y permiten preparar solicitudes de WhatsApp; no afirman enviar mensajes autónomamente.
 
-1. **WhatsApp automático:** aún no configurado para enviar y recibir mensajes desde el número real mediante Meta Cloud API; los enlaces actuales son *click-to-chat* iniciados por el visitante.
-2. **Indexación:** WebsitePublisher tiene `force_noindex=true` en ambos proyectos. Solo el propietario puede autorizar que sean indexables; se aconseja indexar únicamente el diseño elegido.
-3. **MCP remoto:** el Worker expone herramientas públicas sin información privada. Para operaciones personales o autenticadas, hay que añadir autorización y control de identidad.
-4. **MCP stdio** en `mcp-server/` es un proyecto previo, separado del Worker remoto; requiere validación y no representa un servicio remoto por sí mismo.
-5. **Demo comercial:** no asumir precios, stock, garantías o compatibilidad sin comprobación profesional. Cualquier tarea sobre sistemas de seguridad debe hacerse por personal calificado.
+**MCP remoto:** `worker/lca-agent.js` expone `/mcp` para información comercial pública y preparación de borradores; no da acceso a datos personales ni modifica pedidos.
+
+**Operación del agente:** el Worker está desplegado con AI binding y rate limiting; su modelo se probó por Cloudflare. La prueba E2E del chat desde navegador debe verificarse antes de prometer disponibilidad permanente.
+
+**Número:** el contacto oficial publicado en algunos directorios difiere del número usado previamente en este proyecto. El cliente debe confirmar el número de WhatsApp antes de lanzar la marca definitiva.
 
 ## Estructura
 
 ```
 sites/
   srs-expert/index.html
-  srs-expert/immersive.css
+  srs-expert/photo-expert.css
   srs-expert/privacidad.html
   srs-expert/terminos.html
-  srs-expert/llms.txt
   srs-lab/index.html
-  srs-lab/laboratory.css
+  srs-lab/photo-lab.css
   srs-lab/privacidad.html
   srs-lab/terminos.html
-  srs-lab/llms.txt
-shared/experience.js
+shared/photo-site.js
 worker/lca-agent.js
-mcp-server/
-assets/                   # Fotografías históricas conservadas en el repositorio, ya no usadas por las home
-assets-manifest.json
+mcp-server/ # herramienta stdio de consulta, separada del Worker remoto
 ```
+
+Las imágenes se alojan en los proyectos WebsitePublisher (`/images/2027/`); ver `photo-assets-2027.json`.
+
+## Seguridad automotriz
+
+La información publicada y las respuestas de IA son consultas comerciales y no reemplazan diagnóstico, instalación ni revisión profesional de sistemas airbag SRS. No se publican instrucciones para manipular ni desactivar componentes de seguridad.
