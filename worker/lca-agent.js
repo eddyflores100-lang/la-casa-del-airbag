@@ -47,9 +47,18 @@ async fetch(request,env){
     if(tool.name==="list_component_categories")return response({reply:"Estas son las categorías para consulta: "+PROFILE.categories.join(", ")+". La compatibilidad y disponibilidad se verifican con el equipo comercial.",provider:"Cloudflare Workers AI",action:{type:"categories",data:PROFILE.categories},brand},200,origin);
     if(tool.name==="prepare_quote"){
       const good=["marca","modelo","anio","componente"].every(k=>typeof arg[k]==="string"&&arg[k].trim().length>0&&arg[k].length<=100);
+      if(!good)return response({reply:"Para revisar tu consulta necesito marca, modelo, año y componente. ¿Qué datos puedes confirmarme?",provider:"Cloudflare Workers AI",brand},200,origin);
       const year=Number(arg.anio);
-      if(good&&year>=1980&&year<=2028&&Number.isInteger(year)){const q=quote(arg);return response({reply:"Preparé el mensaje de consulta con los datos de tu vehículo. Abre el enlace y revisa el texto antes de enviarlo. La compatibilidad y el stock los confirma nuestro equipo.",provider:"Cloudflare Workers AI",action:{type:"open_whatsapp",url:q.url,message_sent:false},brand},200,origin)}
-      return response({reply:"Para preparar tu consulta necesito marca, modelo, año y componente. ¿Me confirmas los datos faltantes?",provider:"Cloudflare Workers AI",brand},200,origin);
+      const said=[...history.filter(m=>m.role==="user").map(m=>m.content),message].join(" ").toLocaleLowerCase("es");
+      const modelStated=said.includes(arg.modelo.trim().toLocaleLowerCase("es"));
+      const brandStated=said.includes(arg.marca.trim().toLocaleLowerCase("es"));
+      const yearStated=Number.isInteger(year)&&year>=1980&&year<=2028&&new RegExp("(?:^|\\D)"+year+"(?:\\D|$)").test(said);
+      if(!brandStated||!modelStated)return response({reply:"Podemos revisar opciones para tu vehículo. ¿Cuál es la marca y el modelo exacto?",provider:"Cloudflare Workers AI",brand},200,origin);
+      if(!yearStated)return response({reply:"Podemos consultar la pieza para tu "+arg.marca+" "+arg.modelo+". ¿De qué año es tu vehículo? Así evitamos indicarte una referencia equivocada.",provider:"Cloudflare Workers AI",brand},200,origin);
+      const requested=/(cotiz|presupuest|precio|whatsapp|enviar (consulta|mensaje)|comprar)/i.test(message);
+      if(!requested)return response({reply:"Podemos revisar opciones para tu "+arg.marca+" "+arg.modelo+" "+year+". La disponibilidad y la compatibilidad las confirma el equipo. ¿Deseas solicitar una cotización?",provider:"Cloudflare Workers AI",brand},200,origin);
+      const q=quote(arg);
+      return response({reply:"Preparé un mensaje con los datos que proporcionaste. Revísalo antes de enviarlo por WhatsApp; el equipo confirmará disponibilidad y compatibilidad.",provider:"Cloudflare Workers AI",action:{type:"open_whatsapp",url:q.url,message_sent:false},brand},200,origin);
     }
    }
    const reply=typeof result?.response==="string"?result.response.trim():"";
