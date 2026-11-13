@@ -11,3 +11,34 @@
 @keyframes pulse{50%{box-shadow:0 0 0 11px #2aa6e005}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}@media(max-width:1050px){.hero h1{font-size:clamp(72px,11vw,130px)}.hero-desc{max-width:350px}.stage-region{left:37%}.manifest-inner{grid-template-columns:.3fr 1fr}.deck-title{flex-basis:170px}.visual-note{display:none}}
 @media(max-width:800px){.layout{width:calc(100% - 44px)}.topnav{min-height:72px;padding:0 22px}.navside a,.navside .desktop-action{display:none}.navside{gap:8px}.mobile-action{display:inline-flex!important;background:#badfff!important;color:#092337!important;padding:12px!important}.hero{min-height:890px;align-items:start;padding-top:110px}.hero h1{font-size:clamp(59px,12vw,95px);margin:22px 0}.hero-inner{position:relative;z-index:3}.stage-region{inset:320px 0 50px 0;opacity:.85}.hero-desc{max-width:430px}.hero-ctas{position:relative;z-index:5}.coord{top:auto;bottom:36%;right:25px}.edition{bottom:25px;left:22px;z-index:4}.control-deck .layout{flex-direction:column;gap:0}.deck-title{flex:auto;border:0;padding:20px 0}.object-picker{width:100%}.object-picker button{padding:18px 8px}.manifest{padding:90px 0}.manifest-inner{grid-template-columns:1fr;gap:25px}.manifest h2{font-size:clamp(49px,10vw,80px)}.proof{padding:90px 0}.proof .proof-line{grid-template-columns:50px 1fr;gap:18px}.proof .proof-line p{grid-column:2}.overlay{padding:12px}.overlay-inner{grid-template-columns:1fr}.overlay-side{padding:25px 28px}.overlay-side h2{font-size:44px;margin:12px 0}.overlay-main{padding:24px;min-height:400px}.overlay-close{right:10px;top:8px}.overlay-side p{display:none}}
 @media(max-width:500px){.identity-mark{font-size:28px}.identity-text{font-size:12px}.hero{min-height:790px}.hero h1{font-size:clamp(59px,14vw,72px)}.hero h1 em{font-size:65px}.stage-region{top:335px;bottom:100px}.coord{display:none}.hero-desc{font-size:13px;max-width:310px}.hero-ctas{gap:7px}.action{padding:14px 17px;min-height:46px;font-size:9px}.object-picker small{display:none}.object-picker b{font-size:10px}.manifest h2{font-size:50px}.proof .proof-line h3{font-size:24px}.launcher{right:14px;bottom:14px;padding:12px 14px;font-size:9px}.quote-form{grid-template-columns:1fr}.quote-form .span2{grid-column:span 1}}
+
+
+/* NOV 2026 photographic direction: real automotive products, no procedural 3D */
+.hero.photo-hero{min-height:740px;position:relative;background:#111820;isolation:isolate;padding:125px 0 85px}
+.hero.photo-hero:before,.hero.photo-hero:after{display:none!important}
+.photo-backdrop{position:absolute;inset:0;z-index:-1;overflow:hidden;background:#111820}
+.photo-backdrop img{width:100%;height:100%;object-fit:cover;object-position:center 50%;filter:grayscale(.32) saturate(.72) contrast(1.07) brightness(.66);transform:scale(1.035);animation:photoReveal 1.8s ease-out both}
+.photo-backdrop:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,14,23,.97) 0%,rgba(5,14,23,.83) 37%,rgba(5,14,23,.22) 85%),linear-gradient(0deg,rgba(5,14,23,.7),transparent 35%)}
+.photo-hero .hero-inner{position:relative;z-index:3}
+.photo-hero h1{font:800 clamp(48px,6.8vw,104px)/1.04 Manrope,sans-serif;letter-spacing:-.078em;text-transform:none;max-width:920px;margin:27px 0}
+.photo-hero h1 em{font:italic 500 1em Instrument Serif,serif;color:#b9d8f2;letter-spacing:-.045em}
+.photo-hero .hero-desc{font-size:17px;max-width:540px;color:#e1eaf0;line-height:1.7}
+.photo-hero .hero-kicker{color:#a9d4f4}
+.hero-photo-caption{position:absolute;right:4vw;bottom:25px;z-index:4;color:#d5e1eb;font-size:9px}
+.photo-catalog{padding:105px 0 125px;background:#e8edf0;color:#142638}
+.section-intro{max-width:760px;margin-bottom:44px}.section-intro .mono{color:#46738e}.section-intro h2{font:800 clamp(36px,5vw,72px)/1.06 Manrope,sans-serif;letter-spacing:-.075em;margin:15px 0 20px}.section-intro p{color:#4e687b;font-size:16px;max-width:610px}
+.photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.photo-card{background:#f7f9f9;box-shadow:0 16px 35px #18354b0e;overflow:hidden;transition:transform .4s,box-shadow .4s}
+.photo-card:hover{transform:translateY(-7px);box-shadow:0 22px 42px #18354b25}
+.photo-card img{display:block;width:100%;height:285px;object-fit:cover;filter:saturate(.66) contrast(1.07);transition:transform .7s}
+.photo-card:hover img{transform:scale(1.055)}
+.photo-card>div{padding:30px}.photo-card h3{font:800 25px/1.1 Manrope,sans-serif;letter-spacing:-.055em;margin:0 0 12px}.photo-card p{color:#526a7a;min-height:56px;margin:0 0 18px;font-size:14px}
+.photo-card button{background:none;border:0;border-bottom:1px solid #376486;padding:0 0 6px;color:#234f70;font:700 11px 'IBM Plex Mono',monospace;text-transform:uppercase}
+.manifest{padding:95px 0}.manifest:after{opacity:.18}.manifest h2{font-size:clamp(42px,5.6vw,77px);text-transform:none;letter-spacing:-.065em}
+.proof h2{font-size:clamp(40px,5vw,70px);letter-spacing:-.06em}
+.outro h2{font-size:clamp(48px,7vw,98px);text-transform:none;letter-spacing:-.07em}
+.tool-link{display:block;align-self:flex-start;margin:8px 0;padding:12px 15px;background:#b6dffc;color:#09283e;font:700 10px 'IBM Plex Mono',monospace}
+@keyframes photoReveal{from{opacity:.6;transform:scale(1.09)}to{opacity:1;transform:scale(1.035)}}
+@media(max-width:800px){.hero.photo-hero{min-height:720px;padding:115px 0 80px}.photo-backdrop img{object-position:61% center}.photo-backdrop:after{background:linear-gradient(90deg,#06121fee,#06121fc4 60%,#06121f66),linear-gradient(0deg,#06121fc9,transparent)}.photo-hero h1{font-size:clamp(48px,8vw,75px)}.photo-hero .hero-desc{font-size:15px;max-width:420px}.photo-grid{grid-template-columns:1fr 1fr}.photo-card img{height:235px}.photo-catalog{padding:75px 0}}
+@media(max-width:550px){.hero.photo-hero{min-height:720px}.photo-hero h1{font-size:clamp(44px,10vw,58px)}.photo-hero .hero-desc{font-size:14px}.photo-grid{grid-template-columns:1fr}.photo-card img{height:250px}.photo-card p{min-height:0}.hero-photo-caption{font-size:8px;left:22px;right:22px}}
+@media(prefers-reduced-motion:reduce){.photo-backdrop img{animation:none}}
