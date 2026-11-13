@@ -33,7 +33,16 @@
       "source": "https://unsplash.com/photos/close-up-of-cars-dashboard-light-controls-3TLeUxXwokU"
     }
   ],
-  "existingBusinessAssets": [
-    "images/srs-control-unit.webp"
+  "existingBusinessAssets": [],
+  "generatedAIAssets": [
+    {
+      "file": "srs-module-studio.jpg",
+      "model": "Cloudflare Workers AI FLUX.1-schnell",
+      "licenseNote": "Fotografía ilustrativa generada con IA; no corresponde a una pieza verificada del taller",
+      "usedIn": [
+        "SRS EXPERT",
+        "SRS LAB"
+      ]
+    }
   ]
 }
