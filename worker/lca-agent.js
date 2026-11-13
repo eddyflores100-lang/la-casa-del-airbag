@@ -28,6 +28,7 @@ async fetch(request,env){
  if(url.pathname==="/api/chat"&&request.method==="POST"){
   if(!ALLOWED.has(origin))return response({error:"Origin not allowed"},403,origin);
   let payload;try{const body=await request.text();if(body.length>9000)return response({error:"Payload too large"},413,origin);payload=JSON.parse(body)}catch{return response({error:"Invalid JSON"},400,origin)}
+  if(env.CHAT_LIMIT){const ip=request.headers.get("CF-Connecting-IP")||"unknown";const verdict=await env.CHAT_LIMIT.limit({key:ip});if(!verdict.success)return response({error:"RATE_LIMIT",message:"Demasiadas consultas seguidas. Intenta nuevamente en un minuto o usa WhatsApp."},429,origin)}
   const message=typeof payload?.message==="string"?payload.message.trim():"";
   if(!message||message.length>1000)return response({error:"Message must be 1-1000 characters"},400,origin);
   const brand=payload.brand==="lab"?"SRS LAB":"SRS EXPERT";
