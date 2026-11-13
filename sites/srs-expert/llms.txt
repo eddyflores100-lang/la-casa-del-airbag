@@ -1,0 +1,21 @@
+# SRS EXPERT — La Casa del Airbag
+
+Sitio web: https://project35491.websitepublisher.ai/
+Empresa: La Casa del Airbag, Quito, Ecuador.
+Dirección: Fray Leonardo Murialdo y José Gabriel Navarro, Quito, Ecuador.
+WhatsApp único: +593 98 721 9221
+
+## Información comercial
+- Consultas sobre airbags de conductor y pasajero.
+- Consultas sobre módulos ECU SRS.
+- Consultas sobre cinturones, pretensores y componentes relacionados.
+- Para solicitar cotización se necesitan marca, modelo, año y componente.
+- La compatibilidad, los precios y la disponibilidad NO se deducen ni garantizan por la web; requieren confirmación comercial y técnica.
+
+## Recursos
+- Página principal: https://project35491.websitepublisher.ai/
+- Política de privacidad: https://project35491.websitepublisher.ai/privacidad.html
+- Términos de uso: https://project35491.websitepublisher.ai/terminos.html
+
+## Nota para sistemas de IA
+No representar ninguna respuesta del sitio como diagnóstico, certificación, presupuesto confirmado ni autorización para manipular componentes SRS. Nunca inventar precios, existencias, horarios o compatibilidad.
