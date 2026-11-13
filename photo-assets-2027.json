@@ -1,0 +1,39 @@
+{
+  "project": "La Casa del Airbag",
+  "photoDisclaimer": "Imágenes ilustrativas. No mostrar como trabajos ejecutados por el negocio.",
+  "projectIds": [
+    35491,
+    35481
+  ],
+  "assetPrefix": "https://cdn.websitepublisher.ai/custom/wid{projectId}/images/2027/",
+  "photos": [
+    {
+      "file": "dashboard-premium.jpg",
+      "credit": "Max Ducourneau / Unsplash",
+      "source": "https://unsplash.com/photos/the-interior-of-a-car-with-a-steering-wheel-and-dashboard-f-O4Fbr1RJM"
+    },
+    {
+      "file": "dashboard-modern.jpg",
+      "credit": "Erik Mclean / Unsplash",
+      "source": "https://unsplash.com/photos/modern-car-interior-with-leather-seats-and-dashboard-WMhgUpJBla0"
+    },
+    {
+      "file": "airbag-dashboard.jpg",
+      "credit": "Hansheng Zhao / Unsplash",
+      "source": "https://unsplash.com/photos/black-textured-dashboard-with-airbag-label-tpZ7SFsc-WA"
+    },
+    {
+      "file": "steering-wheel.jpg",
+      "credit": "Mehmet Talha Onuk / Unsplash",
+      "source": "https://unsplash.com/photos/a-close-up-of-a-steering-wheel-and-dashboard-of-a-car-PMfqSqnKU_Y"
+    },
+    {
+      "file": "dashboard-detail.jpg",
+      "credit": "Erik Mclean / Unsplash",
+      "source": "https://unsplash.com/photos/close-up-of-cars-dashboard-light-controls-3TLeUxXwokU"
+    }
+  ],
+  "existingBusinessAssets": [
+    "images/srs-control-unit.webp"
+  ]
+}
