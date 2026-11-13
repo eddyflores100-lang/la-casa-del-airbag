@@ -1,0 +1,40 @@
+name: Deploy La Casa del Airbag on Cloudflare
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "cloudflare/**"
+      - "sites/srs-expert/**"
+      - "sites/srs-lab/**"
+      - "shared/photo-site.js"
+      - "worker/lca-agent.js"
+      - ".github/workflows/deploy-lca-cloudflare.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Prepare Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate both website bundles
+        run: node cloudflare/deploy.mjs --check
+      - name: Publish both websites and Workers AI agent
+        env:
+          CLOUDFLARE_ACCOUNT_ID: faf93cd2a0d373573de0859b1cc95328
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        shell: bash
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::warning::Cloudflare API token not configured. Source checked, deployment skipped."
+            exit 0
+          fi
+          node cloudflare/deploy.mjs
