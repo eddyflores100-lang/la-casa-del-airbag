@@ -35,7 +35,23 @@ async fetch(request,env){
   const history=Array.isArray(payload.history)?payload.history.filter(m=>["user","assistant"].includes(m?.role)&&typeof m.content==="string").slice(-8).map(m=>({role:m.role,content:m.content.slice(0,700)})):[];
   const messages=[{role:"system",content:INSTRUCTIONS+" Presentación de procedencia de esta conversación: "+brand+"."},...history,{role:"user",content:message}];
   try {
-   const result=await env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast",{messages,max_tokens:420,temperature:0.35});
+   const agentTools=[
+    {name:"get_business_info",description:"Consulta ubicación, contacto, WhatsApp y nombre oficial del negocio.",parameters:{type:"object",properties:{},required:[]}},
+    {name:"list_component_categories",description:"Devuelve categorías de sistemas SRS ofrecidas a consulta.",parameters:{type:"object",properties:{},required:[]}},
+    {name:"prepare_quote",description:"Cuando ya están marca, modelo, año y componente, genera un enlace de consulta en WhatsApp sin enviar mensajes ni confirmar existencia.",parameters:{type:"object",properties:{marca:{type:"string"},modelo:{type:"string"},anio:{type:"string"},componente:{type:"string"}},required:["marca","modelo","anio","componente"]}}
+   ];
+   const result=await env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast",{messages,max_tokens:420,temperature:0.35,tools:agentTools});
+   if(Array.isArray(result?.tool_calls)&&result.tool_calls.length){
+    const tool=result.tool_calls[0],arg=tool.arguments||{};
+    if(tool.name==="get_business_info")return response({reply:"La Casa del Airbag se encuentra en "+PROFILE.address+". WhatsApp: "+PROFILE.whatsapp+". También puedes consultar componentes desde esta página.",provider:"Cloudflare Workers AI",action:{type:"business_profile",data:PROFILE},brand},200,origin);
+    if(tool.name==="list_component_categories")return response({reply:"Estas son las categorías para consulta: "+PROFILE.categories.join(", ")+". La compatibilidad y disponibilidad se verifican con el equipo comercial.",provider:"Cloudflare Workers AI",action:{type:"categories",data:PROFILE.categories},brand},200,origin);
+    if(tool.name==="prepare_quote"){
+      const good=["marca","modelo","anio","componente"].every(k=>typeof arg[k]==="string"&&arg[k].trim().length>0&&arg[k].length<=100);
+      const year=Number(arg.anio);
+      if(good&&year>=1980&&year<=2028&&Number.isInteger(year)){const q=quote(arg);return response({reply:"Preparé el mensaje de consulta con los datos de tu vehículo. Abre el enlace y revisa el texto antes de enviarlo. La compatibilidad y el stock los confirma nuestro equipo.",provider:"Cloudflare Workers AI",action:{type:"open_whatsapp",url:q.url,message_sent:false},brand},200,origin)}
+      return response({reply:"Para preparar tu consulta necesito marca, modelo, año y componente. ¿Me confirmas los datos faltantes?",provider:"Cloudflare Workers AI",brand},200,origin);
+    }
+   }
    const reply=typeof result?.response==="string"?result.response.trim():"";
    if(!reply)throw new Error("Empty model response");
    return response({reply,provider:"Cloudflare Workers AI",model:"llama-3.3-70b-instruct-fp8-fast",brand},200,origin);
