@@ -33,6 +33,15 @@ async fetch(request,env){
   if(!message||message.length>1000)return response({error:"Message must be 1-1000 characters"},400,origin);
   const brand=payload.brand==="lab"?"SRS LAB":"SRS EXPERT";
   const history=Array.isArray(payload.history)?payload.history.filter(m=>["user","assistant"].includes(m?.role)&&typeof m.content==="string").slice(-8).map(m=>({role:m.role,content:m.content.slice(0,700)})):[];
+  // Deterministic business-critical answer: never let a generic category tool override a quote-data question.
+  const normalized=message.normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase();
+  const asksRequiredInfo=/(datos|informacion|que necesito|que debo enviar|que les envio)/.test(normalized)&&/(cotiz|presupuest|pedir|consult|enviar|necesit)/.test(normalized);
+  if(asksRequiredInfo){
+    const module=/modulo|ecu|srs/.test(normalized);
+    const tablero=/tablero/.test(normalized);
+    const part=module?"un módulo SRS":tablero?"un tablero":"una pieza";
+    return response({reply:"Para cotizar "+part+" necesitamos: marca, modelo y año del vehículo, además de la pieza que buscas. Si tienes la referencia o una fotografía del componente, también puedes compartirla por WhatsApp. Nuestro equipo confirma compatibilidad y disponibilidad antes de dar precio. ¿Cuál es tu marca, modelo y año?",provider:"lca-agent",brand},200,origin);
+  }
   const messages=[{role:"system",content:INSTRUCTIONS+" Presentación de procedencia de esta conversación: "+brand+"."},...history,{role:"user",content:message}];
   try {
    const agentTools=[
