@@ -27,7 +27,7 @@ async function ask(question){const text=question?.trim();if(!text||busy)return;o
 try{const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),28000);let response;try{response=await fetch(endpoint+"/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({brand:variant,message:text,history:history.slice(-8)}),signal:controller.signal})}finally{clearTimeout(timeout)}
 const data=await response.json();if(!response.ok||!data.reply)throw new Error(data.message||"Respuesta no disponible");
 say(data.reply,false);history.push({role:"user",content:text},{role:"assistant",content:data.reply});
-if(data.action?.type==="open_whatsapp"&&safeUrl(data.action.url)){const a=document.createElement("a");a.className="whatsapp-result";a.textContent="Revisar y enviar la solicitud por WhatsApp ↗";a.href=data.action.url;a.target="_blank";a.rel="noopener";feed.append(a)}
+if(data.action?.type==="open_whatsapp"&&safeUrl(data.action.url)){const a=document.createElement("a");a.className="whatsapp-result wa-button";a.textContent="Revisar y enviar la solicitud por WhatsApp ↗";a.href=data.action.url;a.target="_blank";a.rel="noopener";feed.append(a)}
 if(status)status.textContent="Agente de Cloudflare Workers AI · Información orientativa";
 }catch(err){say("No pude comunicarme con el agente en este momento. Puedes escribirnos directamente por WhatsApp o completar el formulario de cotización.",false);if(status)status.textContent="El agente no está disponible temporalmente";}finally{busy=false;if(submit)submit.disabled=false}}
 form?.addEventListener("submit",e=>{e.preventDefault();if(!input?.value.trim())return;const v=input.value;input.value="";ask(v)});
