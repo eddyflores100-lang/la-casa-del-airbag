@@ -29,3 +29,21 @@
 .footer .maps-link:hover{color:#fff}
 @media(max-width:900px){.footer-row{grid-template-columns:1fr 1fr;gap:35px}.footer-row>div:first-child{grid-column:1/-1}.end-actions{width:100%;max-width:390px}}
 @media(max-width:520px){.hero{min-height:655px}.hero-content{padding-bottom:80px}.end-actions{max-width:none}.footer-row{grid-template-columns:1fr;gap:29px}.footer-row>div:first-child{grid-column:auto}.footer-about{font-size:13px}}
+
+/* WhatsApp: todos los contactos son acciones visibles, no enlaces de texto */
+.wa-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:12px 19px;background:#247353;color:#fff!important;border:1px solid #247353;text-decoration:none!important;font:750 11px/1.35 Manrope,sans-serif;letter-spacing:.01em;text-align:center;transition:transform .2s ease,background .2s ease,border-color .2s ease}
+.wa-button:hover,.wa-button:focus-visible{background:#15553d;border-color:#15553d;color:#fff!important;transform:translateY(-2px)}
+.wa-button::before{content:"✆";font-size:16px;line-height:1;font-weight:500}
+.nav a.wa-button{color:#fff!important;padding:12px 17px;white-space:nowrap}
+.hero-actions .wa-button.btn.clear{color:#fff!important;border-color:#5eaa8b;background:#235b48db}
+.hero-actions .wa-button.btn.clear:hover{background:#207c58;border-color:#207c58}
+.end-actions .wa-button.end-contact{background:#215d46;color:#fff!important;border-color:#215d46}
+.end-actions .wa-button.end-contact:hover{background:#174a38}
+.footer .wa-button{color:#fff!important;display:inline-flex;max-width:100%;margin:8px 0 14px;padding:12px 16px}
+.dialog-side a.wa-button{color:#fff!important;border:1px solid #398163;background:#1e7252;display:inline-flex;align-self:flex-start;max-width:100%;padding:12px 15px}
+.dialog-content a.wa-button{display:inline-flex;color:#fff!important;background:#227050;border:1px solid #227050;padding:11px 16px;align-self:flex-start}
+.dialog-content a.wa-button.quote-result{display:inline-flex}
+.help .wa-button-inline{margin:10px 0 0 8px;vertical-align:middle}
+@media(max-width:800px){.nav a.wa-button{margin:13px 0 3px;padding:13px 20px}.help .wa-button-inline{margin:10px 0 0 0}}
+@media(max-width:500px){.help .wa-button-inline{display:flex;width:max-content;max-width:100%}.dialog-side a.wa-button{margin-top:6px}}
+@media(prefers-reduced-motion:reduce){.wa-button{transition:none}.wa-button:hover{transform:none}}
