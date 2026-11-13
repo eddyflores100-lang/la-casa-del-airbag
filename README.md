@@ -10,7 +10,7 @@ Dos experiencias visuales diferentes para que el cliente elija. **No se fusionan
 ## Cambios del 13 de noviembre de 2026
 
 - Se eliminaron por completo de las páginas publicadas las figuras geométricas 3D y Three.js, incluidos sus assets y código compartido anteriores.
-- Fotografías coherentes de interiores, tableros y volantes con archivo local en WebsitePublisher. Se conservan algunas fotografías existentes de módulos SRS.
+- Fotografías coherentes de interiores, tableros y volantes con archivo local en WebsitePublisher. La imagen del módulo SRS se creó con Workers AI (FLUX) y está rotulada como ilustrativa, no como pieza real del negocio.
 - Textos centrados en lo que pregunta un cliente: **tableros, airbags, módulos SRS, cinturones, pretensores, cintas y kits**, en lugar de eslóganes técnicos abstractos.
 - Formularios `cotizacion_srs` conservados, captura de leads en WebsitePublisher y enlace a **un único WhatsApp: +593 98 721 9221**.
 - Los chats web ahora llaman al Worker desplegado `lca-agent.eddyflores100.workers.dev`, con Cloudflare Workers AI, herramientas comerciales, respuesta contextual y un límite de consultas por IP. El enlace de WhatsApp se envía **solo si el usuario decide abrirlo y enviarlo**.
