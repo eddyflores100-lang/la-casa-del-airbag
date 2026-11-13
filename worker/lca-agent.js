@@ -34,7 +34,7 @@ async fetch(request,env){
   const brand=payload.brand==="lab"?"SRS LAB":"SRS EXPERT";
   const history=Array.isArray(payload.history)?payload.history.filter(m=>["user","assistant"].includes(m?.role)&&typeof m.content==="string").slice(-8).map(m=>({role:m.role,content:m.content.slice(0,700)})):[];
   // Deterministic business-critical answer: never let a generic category tool override a quote-data question.
-  const normalized=message.normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").toLowerCase();
+  const normalized=message.normalize("NFD").replace(/\p{M}/gu,"").toLowerCase();
   const asksRequiredInfo=/(datos|informacion|que necesito|que debo enviar|que les envio)/.test(normalized)&&/(cotiz|presupuest|pedir|consult|enviar|necesit)/.test(normalized);
   if(asksRequiredInfo){
     const module=/modulo|ecu|srs/.test(normalized);
