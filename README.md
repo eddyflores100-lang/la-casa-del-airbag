@@ -1,38 +1,58 @@
-# La Casa del Airbag — dos propuestas web premium
+# La Casa del Airbag — dos conceptos digitales 2027
 
-Proyecto de demostración comercial con **dos plantillas distintas** para que el cliente elija una sola identidad final:
+**El cliente debe elegir entre dos experiencias de marca completamente independientes, no combinar dos plantillas.**
 
-| Propuesta | Sitio | Código |
-|---|---|---|
-| SRS EXPERT | https://project35491.websitepublisher.ai/ | `sites/srs-expert/index.html` |
-| SRS LAB | https://project35481.websitepublisher.ai/ | `sites/srs-lab/index.html` |
+| Concepto | Web pública | Dirección visual | Implementación |
+|---|---|---|---|
+| SRS EXPERT / 01 | https://project35491.websitepublisher.ai/index.html | Cinemática azul, metal translúcido, escultura orbital 3D, editorial | `sites/srs-expert/index.html` + `sites/srs-expert/immersive.css` |
+| SRS LAB / 02 | https://project35481.websitepublisher.ai/index.html | Laboratorio experimental beige/grafito/naranja, ECU geométrico en capas 3D | `sites/srs-lab/index.html` + `sites/srs-lab/laboratory.css` |
 
-Ambas usan el **mismo WhatsApp comercial: +593 98 721 9221**.
+**WhatsApp único:** +593 98 721 9221. Ambos diseños usan el mismo negocio, el mismo contacto y formularios con `cotizacion_srs` en sus respectivas instalaciones WebsitePublisher.
 
-## Entregado (13-11-2026)
+## Qué cambia en esta entrega
 
-- Rediseño visual independiente 2027 para cada marca, tipografía y símbolos SVG originales.
-- Home responsive, categorías de componentes, preguntas frecuentes, formularios y llamadas a WhatsApp.
-- Formularios preexistentes `cotizacion_srs` en WebsitePublisher, conectados al sistema de leads de cada proyecto.
-- Asistentes web `srs-expert` y `srs-lab` creados con instrucciones de seguridad, historial firmado y límites de consultas.
-- SEO de página: títulos, descripciones, canonical, Open Graph, accesibilidad, imágenes con `alt`, datos estructurados `AutoPartsStore` y `WebSite`.
-- Páginas de privacidad y términos, archivo `llms.txt` opcional por sitio. El archivo `llms.txt` no mejora por sí solo el posicionamiento en Google.
-- Servidor MCP de consulta comercial por `stdio` en `mcp-server/` (código listo para instalar/probar, NO desplegado como endpoint remoto).
+- Se retiraron las fotografías de los dos `index.html`. Esculturas **Three.js/WebGL procedurales** (sin GLB de terceros), iluminación física, órbitas, geometría por capas, pointer drag, selector de objetos, resize, guardas de movimiento reducido y fallback CSS.
+- Interfaz de **agente real desde Cloudflare Workers AI** en cada página. Backend desplegado como `lca-agent` en la cuenta del proyecto, con URL `https://lca-agent.eddyflores100.workers.dev`.
+- `POST /api/chat`: modelo `@cf/meta/llama-3.3-70b-instruct-fp8-fast`, herramienta `get_business_info`, `list_component_categories`, `prepare_quote`, respuesta y enlace opcional para que el visitante decida si envía mensaje. No almacena ni envía mensajes por WhatsApp.
+- Limitador Cloudflare `CHAT_LIMIT` de 6 solicitudes por minuto y cliente/IP por centro de datos (aproximado, según documentación Cloudflare), tamaño máximo y lista de orígenes web autorizados.
+- `POST /mcp`: JSON-RPC MCP con `initialize`, `tools/list`, `tools/call` públicos para consultar ficha y preparar solicitudes sin acceder a datos privados. Código desplegado: `worker/lca-agent.js`.
+- Interfaz de dictado opcional mediante Web Speech API cuando el navegador lo admite.
+- SEO: metadatos por propuesta, HTML semántico, canonical, datos Schema.org, URLs de privacidad, términos y `llms.txt`; se conserva el estado **noindex** mientras el cliente elige una propuesta y su dueño no autoriza indexación.
+- Assets `js/experience.js` y los CSS residen en WebsitePublisher, y su código fuente también en este repositorio.
 
-## Pendientes para operación real
+## Validaciones realizadas — 13 noviembre 2026
 
-1. **La indexación está bloqueada deliberadamente** por configuración global `force_noindex`. El propietario debe autorizar explícitamente que el sitio sea indexable; conviene indexar solo la propuesta elegida para evitar duplicación de marca.
-2. **Los agentes de IA no generan respuestas aún:** falta `openai_api_key` en Vault de **ambos proyectos** y comprobar la llamada real del asistente. Sin clave se muestra mensaje alternativo.
-3. **WhatsApp automático bidireccional no está conectado:** el número único necesita Cloud API de Meta, credenciales, suscripción webhook y servicio de orquestación. Los botones WhatsApp funcionan como enlaces iniciados por el visitante.
-4. **MCP por HTTP remoto** necesita despliegue, pruebas, controles de acceso y validaciones. El servidor incluido expone solo lectura y preparación de enlace, sin enviar mensajes ni almacenar datos.
-5. Faltan ensayos visuales en navegadores reales, revisión del cliente y conexión de dominio definitivo.
+- Ambos proyectos devuelven página `live` tras publicar y la API confirma que sus contenidos incluyen escena 3D, formularios, enlace al Worker y metadatos.
+- Ambos JS publicados compilan sintácticamente en V8 (análisis de sintaxis).
+- Cloudflare confirma Worker desplegado, subdominio público activo, binding AI y rate limiter.
+- La cuenta Cloudflare completó exitosamente inferencia real y una prueba de llamada a herramientas con el modelo elegido.
+- **No se ejecutó aún una prueba automatizada de navegación visual ni chat de extremo a extremo desde un navegador público**. Es una verificación pendiente, no un resultado inventado.
 
-## Documentación y recursos
+## Limitaciones reales
 
-- `assets/`: imágenes y tipografías exportadas de la versión anterior.
-- `assets-manifest.json`: URLs de origen de esos recursos.
-- `mcp-server/README.md`: instalación del servidor MCP de consulta.
+1. **WhatsApp automático:** aún no configurado para enviar y recibir mensajes desde el número real mediante Meta Cloud API; los enlaces actuales son *click-to-chat* iniciados por el visitante.
+2. **Indexación:** WebsitePublisher tiene `force_noindex=true` en ambos proyectos. Solo el propietario puede autorizar que sean indexables; se aconseja indexar únicamente el diseño elegido.
+3. **MCP remoto:** el Worker expone herramientas públicas sin información privada. Para operaciones personales o autenticadas, hay que añadir autorización y control de identidad.
+4. **MCP stdio** en `mcp-server/` es un proyecto previo, separado del Worker remoto; requiere validación y no representa un servicio remoto por sí mismo.
+5. **Demo comercial:** no asumir precios, stock, garantías o compatibilidad sin comprobación profesional. Cualquier tarea sobre sistemas de seguridad debe hacerse por personal calificado.
 
-## Principio de seguridad
+## Estructura
 
-No dar diagnósticos, garantizar compatibilidades ni publicar instrucciones para manipular airbags, pretensores o módulos SRS. Los componentes requieren verificación por especialistas.
+```
+sites/
+  srs-expert/index.html
+  srs-expert/immersive.css
+  srs-expert/privacidad.html
+  srs-expert/terminos.html
+  srs-expert/llms.txt
+  srs-lab/index.html
+  srs-lab/laboratory.css
+  srs-lab/privacidad.html
+  srs-lab/terminos.html
+  srs-lab/llms.txt
+shared/experience.js
+worker/lca-agent.js
+mcp-server/
+assets/                   # Fotografías históricas conservadas en el repositorio, ya no usadas por las home
+assets-manifest.json
+```
